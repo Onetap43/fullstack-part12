@@ -2,7 +2,7 @@ name: E2E Tests
 
 on:
   push:
-    branches: [ xmain, xmaster ]
+    branches: [ main, master ]
 
 jobs:
   e2e-tests:
@@ -24,7 +24,7 @@ jobs:
 
       - name: Build todo-frontend image
         working-directory: ./todo-app/todo-frontend
-        run: docker build -t todo-front -f Dockerfile .
+        run: docker build --build-arg VITE_BACKEND_URL=/api -t todo-front -f Dockerfile .
 
       - name: Start todo-app with Docker Compose
         working-directory: ./todo-app
@@ -33,7 +33,7 @@ jobs:
       - name: Wait for services to be ready
         run: |
           echo "Waiting for nginx to be ready on port 8080..."
-          timeout 120 bash -c 'until curl -f http://localhost:8080 > /dev/null 2>&1; do sleep 2; done'
+          timeout 120 bash -c 'until curl -f http://localhost:8080/api/todos > /dev/null 2>&1; do sleep 2; done'
           echo "Services are ready!"
           
       - name: Check running containers
@@ -49,7 +49,7 @@ jobs:
 
       - name: Run Playwright tests
         working-directory: ./todo-tests
-        run: npm run test:e2e
+        run: npx playwright test
 
       - name: Upload Playwright report
         if: failure()
