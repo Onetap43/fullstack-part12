@@ -1,0 +1,37 @@
+services:
+  mongo:
+    image: mongo:8.0
+    volumes:
+      - blog_mongo_prod:/data/db
+
+  backend:
+    image: bloglist-backend-prod
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3003"
+      MONGODB_URI: mongodb://mongo:27017/bloglist
+      SECRET: ${BLOG_SECRET:?BLOG_SECRET is missing}
+    depends_on:
+      - mongo
+
+  frontend:
+    image: bloglist-frontend-prod
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+  nginx:
+    image: nginx:1.29-alpine
+    ports:
+      - "8082:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  blog_mongo_prod:

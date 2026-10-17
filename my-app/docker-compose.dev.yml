@@ -1,0 +1,47 @@
+services:
+  mongo:
+    image: mongo:8.0
+    volumes:
+      - blog_mongo_dev:/data/db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    image: bloglist-back-dev
+    environment:
+      NODE_ENV: development
+      PORT: "3003"
+      MONGODB_URI: mongodb://mongo:27017/bloglist
+      SECRET: ${BLOG_SECRET}
+    volumes:
+      - ./backend:/app
+      - backend_modules:/app/node_modules
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    image: bloglist-front-dev
+    volumes:
+      - ./frontend:/app
+      - frontend_modules:/app/node_modules
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:1.29-alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  blog_mongo_dev:
+  backend_modules:
+  frontend_modules:
