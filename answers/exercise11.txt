@@ -1,0 +1,103 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261017190959
+Username: LAPTOP-20FNLLF1\Pranjal
+RunAs User: LAPTOP-20FNLLF1\Pranjal
+Configuration Name: 
+Machine: LAPTOP-20FNLLF1 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\Pranjal\AppData\Local\Programs\Microsoft VS Code\6d62b1d5da\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 22836
+PSVersion: 5.1.26100.9711
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9711
+BuildVersion: 10.0.26100.9711
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\..\answers\exercise11.txt
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cPranjal\x5cDocuments\x5cfullstack-part12\x5ctodo-app\x5ctodo-backendPS C:\Users\Pranjal\Documents\fullstack-part12\todo-app\todo-backend> ]633;B
+PS>$redisContainer = docker compose -f docker-compose.dev.yml ps -q redis
+
+docker exec $redisContainer redis-cli GET added_todos
+
+docker exec $redisContainer redis-cli SET added_todos 9001
+
+docker exec $redisContainer redis-cli GET added_todos
+
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cPranjal\x5cDocuments\x5cfullstack-part12\x5ctodo-app\x5ctodo-backendPS C:\Users\Pranjal\Documents\fullstack-part12\todo-app\todo-backend> ]633;B
+PS>Invoke-RestMethod -Method Post `
+  -Uri "http://localhost:3000/todos" `
+  -ContentType "application/json" `
+  -Body '{"text":"Exercise 11 Redis test","done":false}'
+
+Invoke-RestMethod http://localhost:3000/statistics
+
+text                    done _id                      __v
+----                    ---- ---                      ---
+Exercise 11 Redis test False 6ad39df68ae8ad3baedf056d   0
+
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cPranjal\x5cDocuments\x5cfullstack-part12\x5ctodo-app\x5ctodo-backendPS C:\Users\Pranjal\Documents\fullstack-part12\todo-app\todo-backend> ]633;B
+PS>docker exec $redisContainer redis-cli DEL added_todos
+
+Invoke-RestMethod http://localhost:3000/statistics
+
+
+added_todos
+-----------
+          0
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cPranjal\x5cDocuments\x5cfullstack-part12\x5ctodo-app\x5ctodo-backendPS C:\Users\Pranjal\Documents\fullstack-part12\todo-app\todo-backend> ]633;B
+PS>Invoke-RestMethod -Method Post `
+  -Uri "http://localhost:3000/todos" `
+  -ContentType "application/json" `
+  -Body '{"text":"Counter recovery test","done":false}'
+
+Invoke-RestMethod http://localhost:3000/statistics
+
+text                   done _id                      __v
+----                   ---- ---                      ---
+Counter recovery test False 6ad39e238ae8ad3baedf056f   0
+
+
+
+]633;D;0]633;A]633;P;Cwd=C:\x5cUsers\x5cPranjal\x5cDocuments\x5cfullstack-part12\x5ctodo-app\x5ctodo-backendPS C:\Users\Pranjal\Documents\fullstack-part12\todo-app\todo-backend> ]633;B
+PS>Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20261017191135
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20261017191308
+Username: LAPTOP-20FNLLF1\Pranjal
+RunAs User: LAPTOP-20FNLLF1\Pranjal
+Configuration Name: 
+Machine: LAPTOP-20FNLLF1 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -noexit -command try { . "c:\Users\Pranjal\AppData\Local\Programs\Microsoft VS Code\6d62b1d5da\resources\app\out\vs\workbench\contrib\terminal\common\scripts\shellIntegration.ps1" } catch {}
+Process ID: 22836
+PSVersion: 5.1.26100.9711
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9711
+BuildVersion: 10.0.26100.9711
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is ..\..\answers\exercise11.txt
+
+After increment: 9002
+
+After deletion: 0
+After recovery: 1
+**********************
+Windows PowerShell transcript end
+End time: 20261017191309
+**********************

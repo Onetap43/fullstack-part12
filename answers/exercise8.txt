@@ -1,0 +1,58 @@
+﻿MongoDB CLI session — Exercise 8
+Recorded from the earlier completed terminal session.
+
+test> show dbs
+admin         100.00 KiB
+config         60.00 KiB
+local          72.00 KiB
+the_database   72.00 KiB
+
+test> use the_database
+switched to db the_database
+
+the_database> show collections
+todos
+
+the_database> db.todos.find({})
+[
+  {
+    _id: ObjectId('6ad396607dd9973ce61ceb6d'),
+    text: 'Write code',
+    done: true
+  },
+  {
+    _id: ObjectId('6ad396607dd9973ce61ceb6e'),
+    text: 'Learn about containers',
+    done: false
+  },
+  {
+    _id: ObjectId('6ad398bf685417ef55ff80f4'),
+    text: 'Exercise 7 updated',
+    done: true,
+    __v: 0
+  }
+]
+
+the_database> db.todos.insertOne({
+  text: 'Increase the number of tools in my tool belt',
+  done: false
+})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6ad3998110ceaa01d4957675')
+}
+
+the_database> db.todos.find({
+  text: 'Increase the number of tools in my tool belt'
+})
+[
+  {
+    _id: ObjectId('6ad3998110ceaa01d4957675'),
+    text: 'Increase the number of tools in my tool belt',
+    done: false
+  }
+]
+
+the_database> exit
+
+The inserted todo was also verified through the Express GET /todos API.

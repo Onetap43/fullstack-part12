@@ -1,18 +1,27 @@
-const express = require('express');
-const logger = require('morgan');
-const cors = require('cors');
+const express = require('express')
+const logger = require('morgan')
+const cors = require('cors')
 
-const indexRouter = require('./routes/index');
-const todosRouter = require('./routes/todos');
+const { get } = require('./redis')
 
-const app = express();
+const indexRouter = require('./routes/index')
+const todosRouter = require('./routes/todos')
 
-app.use(cors());
+const app = express()
 
-app.use(logger('dev'));
-app.use(express.json());
+app.use(cors())
+app.use(logger('dev'))
+app.use(express.json())
 
-app.use('/', indexRouter);
-app.use('/todos', todosRouter);
+app.use('/', indexRouter)
+app.use('/todos', todosRouter)
 
-module.exports = app;
+app.get('/statistics', async (req, res) => {
+  const count = await get('added_todos')
+
+  res.json({
+    added_todos: Number(count || 0)
+  })
+})
+
+module.exports = app
